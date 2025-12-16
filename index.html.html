@@ -1,0 +1,959 @@
+<!doctype html>
+<html lang="hu">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Norton vírusvédelem – Telekom (mockup)</title>
+
+  <style>
+    :root{
+      --magenta:#E20074;
+      --magenta-dark:#B0005C;
+      --norton-yellow:#FFD100;
+
+      --navy:#0A1F44;
+      --bg:#F5F5F5;
+      --text:#101828;
+
+      --card:#ffffff;
+      --stroke:rgba(10,31,68,.14);
+      --shadow: 0 10px 25px rgba(10,31,68,.10);
+      --shadow2: 0 6px 18px rgba(10,31,68,.08);
+
+      --radius: 18px;
+      --max: 1200px;
+      --gutter: 20px;
+
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      --sans: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+    }
+
+    *{ box-sizing: border-box; }
+    html,body{ height:100%; }
+    body{
+      margin:0;
+      font-family: var(--sans);
+      color:var(--text);
+      background:linear-gradient(#ffffff, #ffffff 60%, var(--bg));
+    }
+    a{ color:inherit; text-decoration:none; }
+    .container{
+      max-width: var(--max);
+      margin:0 auto;
+      padding: 0 var(--gutter);
+    }
+
+    /* Top bar */
+    .topbar{
+      position: sticky;
+      top:0;
+      z-index: 20;
+      backdrop-filter: blur(10px);
+      background: rgba(255,255,255,.82);
+      border-bottom:1px solid rgba(10,31,68,.08);
+    }
+    .topbar-inner{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding: 14px 0;
+      gap: 14px;
+    }
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      min-width: 260px;
+    }
+    .logo-badge{
+      width:38px;height:38px;border-radius:12px;
+      background: radial-gradient(120% 120% at 30% 30%, rgba(226,0,116,.25), rgba(10,31,68,.0) 55%),
+                  linear-gradient(135deg, var(--magenta), #ff4aa8);
+      box-shadow: 0 10px 20px rgba(226,0,116,.22);
+      display:grid; place-items:center;
+      color:white; font-weight:800; letter-spacing:-0.5px;
+    }
+    .brand-title{ line-height:1.1; }
+    .brand-title .small{
+      font-size:12px;
+      color:rgba(16,24,40,.64);
+      font-weight:600;
+      letter-spacing:.2px;
+    }
+    .brand-title .big{
+      font-size:15px;
+      font-weight:800;
+      letter-spacing:-.2px;
+    }
+    .nav{
+      display:flex;
+      align-items:center;
+      gap: 18px;
+      flex-wrap: wrap;
+      justify-content:flex-end;
+    }
+    .nav a{
+      font-size:13px;
+      color: rgba(16,24,40,.70);
+      font-weight:700;
+      padding:10px 10px;
+      border-radius: 999px;
+    }
+    .nav a:hover{ background: rgba(10,31,68,.06); }
+
+    .cta{
+      display:flex;
+      gap:10px;
+      align-items:center;
+    }
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+      padding: 14px 18px;
+      border-radius: 12px;
+      border: 1px solid transparent;
+      font-weight:800;
+      font-size:14px;
+      cursor:pointer;
+      transition: transform .15s ease, background .15s ease, border-color .15s ease;
+      user-select:none;
+      white-space: nowrap;
+    }
+    .btn:active{ transform: translateY(1px); }
+    .btn-primary{
+      background: var(--magenta);
+      color:white;
+      box-shadow: 0 14px 28px rgba(226,0,116,.20);
+    }
+    .btn-primary:hover{ background: var(--magenta-dark); }
+    .btn-ghost{
+      background: rgba(10,31,68,.04);
+      border-color: rgba(10,31,68,.10);
+      color: rgba(16,24,40,.86);
+    }
+    .btn-ghost:hover{ background: rgba(10,31,68,.07); }
+
+    /* HERO – új háttér (képpel + overlay) */
+
+.hero{
+  position: relative;
+  overflow: hidden;
+  border-bottom: 1px solid rgba(10,31,68,.10);
+  color: #ffffff;
+
+  background:
+    /* SÖTÉT IT ALAP – ENGEDTÜNK */
+    linear-gradient(
+      180deg,
+      rgba(6,16,35,.68),
+      rgba(10,31,68,.78)
+    ),
+
+    /* MAGENTA TELEKOM FILTER – VISSZAFOGOTTABB */
+    linear-gradient(
+      135deg,
+      rgba(226,0,116,.38),
+      rgba(226,0,116,.14) 45%,
+      rgba(53,110,255,.10)
+    ),
+
+    /* HÁTTÉRKÉP */
+    url("./assets/hero-bg.jpg");
+
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+    .hero-inner{
+      position:relative;
+      display:grid;
+      grid-template-columns: 1.15fr .85fr;
+      gap: 34px;
+      padding: 64px 0 56px;
+      align-items:center;
+    }
+    .kicker{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      font-weight:800;
+      font-size:12px;
+      letter-spacing:.12em;
+      text-transform:uppercase;
+      color: rgba(255,255,255,.78);
+    }
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.10);
+      border: 1px solid rgba(255,255,255,.16);
+    }
+    .dot{
+      width:8px;height:8px;border-radius:999px;background: var(--magenta);
+      box-shadow: 0 0 0 6px rgba(226,0,116,.18);
+    }
+    h1{
+      margin: 14px 0 12px;
+      font-size: 48px;
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+    }
+    .hero p{
+      margin:0;
+      font-size:18px;
+      color: rgba(255,255,255,.84);
+      line-height:1.6;
+      max-width: 58ch;
+    }
+    .highlight-magenta{
+      color: var(--magenta);
+      font-weight: 900;
+    }
+    .hero-actions{
+      display:flex;
+      gap: 12px;
+      margin-top: 22px;
+      flex-wrap: wrap;
+    }
+    .hero .btn-ghost{
+      color: #ffffff;
+      background: rgba(255,255,255,.12);
+      border-color: rgba(255,255,255,.30);
+    }
+    .hero .btn-ghost:hover{
+      background: rgba(255,255,255,.18);
+    }
+    .hero-meta{
+      display:flex;
+      gap: 14px;
+      margin-top: 16px;
+      flex-wrap: wrap;
+      color: rgba(255,255,255,.78);
+      font-size:13px;
+      font-weight:700;
+    }
+    .hero-meta span{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      padding: 10px 12px;
+      background: rgba(255,255,255,.08);
+      border: 1px solid rgba(255,255,255,.14);
+      border-radius: 999px;
+    }
+
+    /* Right hero card */
+    .hero-card{
+      background: rgba(255,255,255,.08);
+      border: 1px solid rgba(255,255,255,.16);
+      border-radius: var(--radius);
+      box-shadow: 0 18px 40px rgba(0,0,0,.22);
+      overflow:hidden;
+      backdrop-filter: blur(8px);
+    }
+    .hero-card-header{
+      padding: 16px 18px;
+      display:flex; align-items:center; justify-content:space-between;
+      border-bottom:1px solid rgba(255,255,255,.12);
+    }
+    .chip{
+      font-family: var(--mono);
+      font-size:11px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.12);
+      border: 1px solid rgba(255,255,255,.18);
+      color: rgba(255,255,255,.88);
+    }
+    .hero-card-body{ padding: 18px; }
+    .mini-grid{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 10px;
+    }
+    .mini{
+      background: rgba(10,31,68,.34);
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: 14px;
+      padding: 12px;
+    }
+    .mini-grid .mini:first-child{
+      background: linear-gradient(180deg, rgba(226,0,116,.30), rgba(10,31,68,.32));
+      border-color: rgba(226,0,116,.42);
+      box-shadow: 0 10px 22px rgba(226,0,116,.18);
+    }
+    .mini .label{
+      font-size:11px; color: rgba(255,255,255,.76);
+      font-weight:800; letter-spacing:.08em; text-transform:uppercase;
+    }
+    .mini .value{
+      font-size:18px; font-weight:900; margin-top: 6px;
+      letter-spacing:-.02em;
+    }
+    .mini .sub{
+      margin-top: 4px;
+      font-size:12px;
+      color: rgba(255,255,255,.76);
+    }
+    .callout{
+      margin-top: 12px;
+      padding: 14px;
+      border-radius: 14px;
+      background: rgba(10,31,68,.35);
+      border: 2px solid var(--norton-yellow);
+      color: #ffffff;
+      font-weight:900;
+      font-size:13px;
+      line-height:1.35;
+      box-shadow:
+        0 0 0 1px rgba(255,209,0,.25),
+        0 10px 24px rgba(255,209,0,.18);
+    }
+
+    /* Sections */
+    section{ padding: 56px 0; }
+    .section-title{
+      font-size: 30px;
+      margin:0 0 10px;
+      letter-spacing:-.02em;
+    }
+    .section-sub{
+      margin:0;
+      color: rgba(16,24,40,.68);
+      line-height:1.6;
+      max-width: 80ch;
+    }
+
+    /* Benefits – ICONOK: SVG (nem emoji) */
+    .benefits{
+      margin-top: 24px;
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+    .benefit{
+      background: var(--card);
+      border: 1px solid var(--stroke);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow2);
+      padding: 18px;
+      position:relative;
+      overflow:hidden;
+    }
+    .benefit::after{
+      content:"";
+      position:absolute; inset:-20px;
+      background: radial-gradient(260px 120px at 20% 0%, rgba(226,0,116,.14), transparent 55%);
+      opacity:.9;
+      pointer-events:none;
+    }
+    .benefit .icon{
+      width:44px; height:44px;
+      border-radius: 14px;
+      background: rgba(226,0,116,.10);
+      border: 1px solid rgba(226,0,116,.22);
+      display:grid; place-items:center;
+    }
+    .benefit .icon svg{
+      width:22px; height:22px;
+      stroke: var(--magenta);
+      fill: none;
+      stroke-width: 2.2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+    .benefit h3{
+      margin: 12px 0 8px;
+      font-size: 16px;
+      letter-spacing:-.01em;
+    }
+    .benefit p{
+      margin:0;
+      color: rgba(16,24,40,.68);
+      line-height:1.6;
+      font-size:14px;
+    }
+
+    /* Pricing */
+    .pricing-wrap{
+      margin-top: 26px;
+      display:grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+    .plan{
+      background: var(--card);
+      border: 3px solid var(--stroke);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow2);
+      padding: 18px;
+      display:flex;
+      flex-direction:column;
+      min-height: 340px;
+      position:relative;
+      overflow:hidden;
+    }
+    .plan.popular{
+      border-color: rgba(226,0,116,.40);
+      box-shadow: 0 18px 45px rgba(226,0,116,.16), var(--shadow2);
+      transform: translateY(-6px);
+    }
+    .badge{
+      position:absolute;
+      top:14px; right:14px;
+      padding: 8px 10px;
+      border-radius: 999px;
+      background: rgba(226,0,116,.12);
+      border: 1px solid rgba(226,0,116,.22);
+      color: var(--magenta);
+      font-weight:900;
+      font-size:11px;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+    }
+    .plan h3{
+      margin:0;
+      font-size:16px;
+      letter-spacing:-.01em;
+    }
+    .muted{ color: rgba(16,24,40,.62); }
+    .plan .devices{
+      margin-top: 10px;
+      font-weight:800;
+      color: rgba(16,24,40,.78);
+      font-size:13px;
+    }
+    .price{
+      margin-top: 14px;
+      font-size: 34px;
+      font-weight: 950;
+      letter-spacing:-.03em;
+    }
+    .price small{
+      font-size: 13px;
+      font-weight: 800;
+      color: rgba(16,24,40,.55);
+    }
+    .trial{
+      margin-top: 10px;
+      font-weight:900;
+      color: rgba(10,31,68,.78);
+      background: rgba(10,31,68,.06);
+      border: 1px solid rgba(10,31,68,.10);
+      padding: 10px 12px;
+      border-radius: 12px;
+      font-size: 13px;
+      line-height: 1.3;
+    }
+    .features{
+      margin-top: 14px;
+      display:grid;
+      gap: 8px;
+      font-size: 13px;
+      color: rgba(16,24,40,.72);
+    }
+    .features span{
+      display:flex; gap:10px; align-items:flex-start;
+    }
+    .features b{ color: rgba(16,24,40,.86); }
+    .plan .btn{
+      margin-top:auto;
+      width:100%;
+      padding: 14px 16px;
+      border-radius: 14px;
+    }
+
+    /* How it works */
+    .steps{
+      margin-top: 26px;
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      align-items:stretch;
+    }
+    .step{
+      background: var(--card);
+      border: 1px solid var(--stroke);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow2);
+      padding: 18px;
+      position:relative;
+    }
+    .num{
+      width: 38px; height: 38px;
+      border-radius: 14px;
+      display:grid; place-items:center;
+      font-weight: 950;
+      color: white;
+      background: linear-gradient(135deg, var(--magenta), #ff4aa8);
+      box-shadow: 0 12px 22px rgba(226,0,116,.20);
+    }
+    .step h3{ margin: 12px 0 8px; font-size:16px; }
+    .step p{ margin:0; color: rgba(16,24,40,.68); line-height:1.6; font-size:14px; }
+    .arrow{
+      display:none;
+      position:absolute;
+      right:-16px; top:50%;
+      width: 32px; height: 32px;
+      transform: translateY(-50%);
+      border-radius: 999px;
+      background: rgba(226,0,116,.12);
+      border: 1px solid rgba(226,0,116,.22);
+      color: var(--magenta);
+      place-items:center;
+      font-weight:950;
+    }
+    @media (min-width: 980px){
+      .step:not(:last-child) .arrow{ display:grid; }
+    }
+
+    /* Login block */
+.login-grid{
+  margin-top: 26px;
+  display: grid;
+  place-items: center;
+}
+
+.shot{
+  width: min(820px, 100%);
+  margin: 0 auto;
+  background: var(--card);
+  border: 1px solid var(--stroke);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow2);
+  overflow: hidden;
+}
+
+.shot .cap{
+  padding: 14px 16px;
+  border-bottom: 1px solid rgba(10,31,68,.08);
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+}
+
+.shot .cap strong{ font-size:14px; }
+
+.shot .cap span{
+  font-family: var(--mono);
+  font-size: 11px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(10,31,68,.12);
+  background: rgba(10,31,68,.04);
+  color: rgba(16,24,40,.70);
+  white-space: nowrap;
+}
+
+.login-shots{
+  padding: 16px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+/* kártya a képek körül */
+.shot .img-wrap{
+  background: linear-gradient(180deg, rgba(10,31,68,.02), rgba(10,31,68,.04));
+  border: 1px solid rgba(10,31,68,.08);
+  border-radius: 14px;
+  padding: 14px;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+}
+
+
+.shot-link{
+  display: grid;
+  place-items: center;
+  width: 100%;
+  border-radius: 12px;
+}
+
+.shot-link:hover{
+  outline: 2px solid rgba(226,0,116,.35);
+  outline-offset: 3px;
+}
+
+
+.shot img{
+  display: block;
+  width: 100%;
+  max-width: 180px;     /* kisebb lett */
+  max-height: 160px;    /* magasság-limit */
+  height: auto;
+  object-fit: contain;  /* ne torzuljon */
+  border-radius: 12px;
+  border: 1px solid rgba(10,31,68,.10);
+  box-shadow: 0 16px 34px rgba(10,31,68,.14);
+  background: #fff;
+}
+
+.login-actions{
+  padding: 0 16px 18px;
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.login-note{
+  margin: 0 16px 18px;
+  color: rgba(16,24,40,.62);
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+@media (max-width: 860px){
+  .login-shots{ grid-template-columns: 1fr; }
+  .login-actions{ justify-content: stretch; }
+  .login-actions .btn{ width: 100%; }
+  .shot img{ max-width: 100%; max-height: none; }
+}
+
+    /* Footer */
+    footer{
+      background: var(--navy);
+      color: rgba(255,255,255,.86);
+      padding: 36px 0;
+      margin-top: 32px;
+    }
+    .footer-grid{
+      display:grid;
+      grid-template-columns: 1.2fr 1fr 1fr;
+      gap: 18px;
+    }
+    footer h4{ margin:0 0 12px; font-size:14px; letter-spacing:.02em; }
+    footer a{
+      color: rgba(255,255,255,.80);
+      display:block;
+      padding: 6px 0;
+      font-weight:700;
+      font-size: 13px;
+    }
+    footer a:hover{ color: #fff; }
+    .fine{
+      margin-top: 14px;
+      font-size: 12px;
+      color: rgba(255,255,255,.70);
+      line-height:1.6;
+    }
+
+    /* Responsiveness */
+    @media (max-width: 1100px){
+      .hero-inner{ grid-template-columns: 1fr; }
+      h1{ font-size: 42px; }
+      .pricing-wrap{ grid-template-columns: 1fr 1fr; }
+      .benefits{ grid-template-columns: 1fr; }
+      .steps{ grid-template-columns: 1fr; }
+      .footer-grid{ grid-template-columns: 1fr; }
+      .brand{ min-width: unset; }
+    }
+    @media (max-width: 860px){
+      .login-shots{ grid-template-columns: 1fr; }
+      .login-actions{ justify-content: stretch; }
+      .login-actions .btn{ width: 100%; }
+    }
+    @media (max-width: 540px){
+      h1{ font-size: 34px; }
+      .topbar-inner{ align-items:flex-start; }
+      .nav{ justify-content:flex-start; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Top navigation -->
+  <div class="topbar">
+    <div class="container">
+      <div class="topbar-inner">
+        <div class="brand">
+          <div class="logo-badge">T</div>
+          <div class="brand-title">
+            <div class="small">Telekom Üzleti • Security</div>
+            <div class="big">Norton vírusvédelem</div>
+          </div>
+        </div>
+        <nav class="nav" aria-label="Oldal navigáció">
+          <a href="#elonyok">Előnyök</a>
+          <a href="#csomagok">Csomagok</a>
+          <a href="#mukodes">Hogyan működik?</a>
+          <a href="#aktivacio">Belépés</a>
+          <a href="#bizalom">Bizalom</a>
+        </nav>
+        <div class="cta">
+          <a class="btn btn-ghost" href="#aktivacio">Belépés</a>
+          <a class="btn btn-primary" href="#csomagok">Rendeld meg</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Hero -->
+  <header class="hero">
+    <div class="container">
+      <div class="hero-inner">
+        <div>
+          <div class="kicker">
+            <span class="pill"><span class="dot"></span> IT-biztonság</span>
+            <span class="pill">Norton</span>
+          </div>
+
+          <h1>Egy rossz kattintás, és veszélybe kerülhetnek az adataid.</h1>
+
+          <p>
+            Nincs idő a felesleges kockázatokra. Vedd kézbe a saját biztonságod.
+            <span class="highlight-magenta">Megbízható védelem egy kattintásra.</span>
+          </p>
+
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="#csomagok">Rendeld meg most</a>
+            <a class="btn btn-ghost" href="#mukodes">Megnézem, hogyan működik</a>
+          </div>
+
+          <div class="hero-meta" aria-label="Gyors előnyök">
+            <span>Vírus, malware, ransomware elleni védelem</span>
+            <span>Több eszközön használható</span>
+          </div>
+        </div>
+
+        <aside class="hero-card" aria-label="Gyors összefoglaló kártya">
+          <div class="hero-card-header">
+            <span class="chip">Elérhető csomagok</span>
+          </div>
+          <div class="hero-card-body">
+            <div class="mini-grid">
+              <div class="mini">
+                <div class="label">Legolcsóbb csomag</div>
+                <div class="value">320 Ft <small style="font-size:12px;font-weight:800;opacity:.85;">/ hó</small></div>
+                <div class="sub">1 eszköz</div>
+              </div>
+              <div class="mini">
+                <div class="label">Legnagyobb csomag</div>
+                <div class="value">1590 Ft <small style="font-size:12px;font-weight:800;opacity:.85;">/ hó</small></div>
+                <div class="sub">10 eszköz</div>
+              </div>
+            </div>
+
+            <div class="callout">✅ <span style="font-weight:900;">1 hónap ingyenes próba</span> mindegyik csomagnál</div>
+
+            <div style="margin-top:14px; display:flex; gap:10px; flex-wrap:wrap;">
+              <span class="chip">S</span><span class="chip">M</span><span class="chip">L</span><span class="chip">XL</span>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </header>
+
+  <!-- Benefits -->
+  <section id="elonyok">
+    <div class="container">
+      <h2 class="section-title">Miért ez a megoldás?</h2>
+      <div class="benefits">
+        <div class="benefit">
+          <div class="icon" aria-hidden="true">
+            <!-- shield -->
+            <svg viewBox="0 0 24 24"><path d="M12 3l7 4v6c0 5-3 9-7 11C8 22 5 18 5 13V7l7-4z"/></svg>
+          </div>
+          <h3>Teljes körű védelem</h3>
+          <p>Vírusok, kártevők, adathalászat és ransomware elleni többrétegű védelem – vállalati használatra is kényelmesen.</p>
+        </div>
+
+        <div class="benefit">
+          <div class="icon" aria-hidden="true">
+            <!-- devices -->
+            <svg viewBox="0 0 24 24">
+              <path d="M4 6h12v10H4z"/><path d="M20 8h-2v6h2z"/><path d="M8 20h4"/>
+            </svg>
+          </div>
+          <h3>Több eszközön használható</h3>
+          <p>PC, Mac és mobil eszközök védelme egy csomagban, a vállalkozásod eszközparkjához igazítva.</p>
+        </div>
+
+        <div class="benefit">
+          <div class="icon" aria-hidden="true">
+            <!-- headset -->
+            <svg viewBox="0 0 24 24">
+              <path d="M4 12a8 8 0 0 1 16 0"/><path d="M4 12v6"/><path d="M20 12v6"/>
+              <path d="M4 17h4v3H6a2 2 0 0 1-2-2z"/><path d="M20 17h-4v3h2a2 2 0 0 0 2-2z"/>
+            </svg>
+          </div>
+          <h3>Telekom háttér</h3>
+          <p>Telekomos ügyfélút és támogatási élmény – tiszta, ismerős folyamat a megrendeléstől az aktiválásig.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pricing -->
+  <section id="csomagok" style="background: var(--bg); border-top: 1px solid rgba(10,31,68,.08); border-bottom: 1px solid rgba(10,31,68,.08);">
+    <div class="container">
+      <h2 class="section-title">Választható csomagok</h2>
+      <div class="pricing-wrap">
+        <div class="plan">
+          <h3>Norton Security Online – S</h3>
+          <div class="devices">1 eszköz</div>
+          <div class="price">320 <small>Ft / hó</small></div>
+          <div class="trial">Próbáld ki 1 hónapig ingyenesen!</div>
+          <div class="features">
+            <span>✅ <b>Alapvédelem</b> 1 eszközre</span>
+            <span>✅ Telepítés PC/Mac/mobil</span>
+          </div>
+          <a class="btn btn-primary" href="#aktivacio">Érdekel</a>
+        </div>
+
+        <div class="plan">
+          <h3>Norton Security Online – M</h3>
+          <div class="devices">3 eszköz</div>
+          <div class="price">650 <small>Ft / hó</small></div>
+          <div class="trial">Próbáld ki 1 hónapig ingyenesen!</div>
+          <div class="features">
+            <span>✅ <b>Kis csapat</b> / több eszköz</span>
+            <span>✅ Vegyes eszközparkhoz</span>
+          </div>
+          <a class="btn btn-primary" href="#aktivacio">Érdekel</a>
+        </div>
+
+        <div class="plan popular">
+          <h3>Norton Security Online – L</h3>
+          <div class="devices">5 eszköz</div>
+          <div class="price">990 <small>Ft / hó</small></div>
+          <div class="trial">Próbáld ki 1 hónapig ingyenesen!</div>
+          <div class="features">
+            <span>✅ <b>Legjobb ár/érték</b></span>
+            <span>✅ 5 eszköz stabil védelme</span>
+          </div>
+          <a class="btn btn-primary" href="#aktivacio">Érdekel</a>
+        </div>
+
+        <div class="plan">
+          <h3>Norton Security Online – XL</h3>
+          <div class="devices">10 eszköz</div>
+          <div class="price">1590 <small>Ft / hó</small></div>
+          <div class="trial">Próbáld ki 1 hónapig ingyenesen!</div>
+          <div class="features">
+            <span>✅ <b>Nagyobb eszközpark</b></span>
+            <span>✅ 10 eszköz rugalmasan</span>
+          </div>
+          <a class="btn btn-primary" href="#aktivacio">Érdekel</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How it works -->
+  <section id="mukodes">
+    <div class="container">
+      <h2 class="section-title">Hogyan működik?</h2>
+          <div class="steps" role="list">
+        <div class="step" role="listitem">
+          <div class="num">1</div>
+          <h3>Megrendelés</h3>
+          <p>Válaszd ki a csomagot, indítsd el a rendelést. A CTA-k az aktiváláshoz vezetnek.</p>
+          <div class="arrow">→</div>
+        </div>
+        <div class="step" role="listitem">
+          <div class="num">2</div>
+          <h3>Aktiválás</h3>
+          <p>Lépj be a Norton fiókba (standard vagy alternatív képernyő).</p>
+          <div class="arrow">→</div>
+        </div>
+        <div class="step" role="listitem">
+          <div class="num">3</div>
+          <h3>Védelem indul</h3>
+          <p>Telepítés és bekapcsolás után a védelem aktív.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+ <!-- Login / Activation -->
+<section id="aktivacio" style="border-top: 1px solid rgba(10,31,68,.08);">
+  <div class="container">
+    <h2 class="section-title">Belépés</h2>
+
+    <div class="login-grid">
+      <div class="shot">
+        <div class="cap">
+          <span>Aktiválás</span>
+        </div>
+
+        <div class="login-shots">
+          <div class="img-wrap">
+            <a class="shot-link"
+               href="https://my.norton.com/partneronboard/home?partnerunitid=6891&PIN=XXXXXXXXXXXXX"
+               target="_blank" rel="noopener noreferrer">
+              <img src="./assets/standard-login.png" alt="Standard Norton login" />
+            </a>
+          </div>
+
+          <div class="img-wrap">
+            <a class="shot-link"
+               href="https://my.norton.com/partneronboard/home?partnerunitid=6891&PIN=XXXXXXXXXXXXX&showcreateaccount=true"
+               target="_blank" rel="noopener noreferrer">
+              <img src="./assets/alternative-login.png" alt="Alternatív login" />
+            </a>
+          </div>
+        </div>
+
+        <div class="login-actions">
+          <a class="btn btn-primary" href="https://my.norton.com/" target="_blank" rel="noopener">Belépés a Norton fiókba</a>
+          <a class="btn btn-ghost" href="#csomagok">Vissza a csomagokhoz</a>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <h4>Telekom Üzleti</h4>
+          <div class="fine">
+            Norton Security Online – mockup landing. <br/>
+            IT vizuál + kártyás elrendezés, egyértelmű CTA-k.
+          </div>
+        </div>
+        <div>
+          <h4>Hasznos linkek</h4>
+          <a href="#csomagok">Csomagok</a>
+          <a href="#mukodes">Hogyan működik?</a>
+          <a href="#aktivacio">Belépés / Aktiválás</a>
+        </div>
+        <div>
+          <h4>Jogi</h4>
+          <a href="#">Általános szerződési feltételek</a>
+          <a href="#">Adatkezelési tájékoztató</a>
+          <div class="fine">© Telekom – design mockup. Nem hivatalos publikáció.</div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', e => {
+        const id = a.getAttribute('href');
+        const el = document.querySelector(id);
+        if (!el) return;
+        e.preventDefault();
+        el.scrollIntoView({behavior:'smooth', block:'start'});
+      });
+    });
+  </script>
+
+</body>
+</html>
